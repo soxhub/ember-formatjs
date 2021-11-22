@@ -23,7 +23,7 @@
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
+    "ember-compatibility-tests": "ember try:each",
     "test:node": "mocha node-tests"
   },
   "dependencies": {
@@ -76,7 +76,7 @@
     "qunit-dom": "^1.6.0"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "14.* || >= 16"
   },
   "ember": {
     "edition": "octane"
