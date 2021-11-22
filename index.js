@@ -12,27 +12,33 @@ module.exports = {
     return new LangConvert(join(appPrefix, 'lang'));
   },
 
-  included(appOrParent) {
+  included() {
     this._super.included.apply(this, arguments);
 
+    // inline _findHost
+    let current = this;
+    let app;
+    do {
+      app = current.app || app;
+    } while (current.parent.parent && (current = current.parent));
+
     // we can't use the setupPreprocessorRegistry() because there is no access to app.options
-    this._setupPreprocessorRegistry(appOrParent.registry);
+    this._setupPreprocessorRegistry(app);
   },
 
-  _setupPreprocessorRegistry(registry) {
-    let plugin = this._buildReplacePlugin();
+  _setupPreprocessorRegistry(app) {
+    let plugin = this._buildReplacePlugin(app);
     plugin.parallelBabel = {
       requireFile: __filename,
       buildUsing: '_buildReplacePlugin',
       params: {},
     };
 
-    registry.add('htmlbars-ast-plugin', plugin);
+    app.registry.add('htmlbars-ast-plugin', plugin);
   },
 
-  _buildReplacePlugin() {
+  _buildReplacePlugin(app) {
     let KeyTransform = require('./replace-key-transform');
-    let app = this._findHost();
 
     let idInterpolationPattern =
       (app.options ?? {})['ember-formatjs']?.idInterpolationPattern ??
