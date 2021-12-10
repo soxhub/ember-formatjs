@@ -27,13 +27,15 @@
     "test:node": "mocha node-tests"
   },
   "dependencies": {
+    "@babel/helper-plugin-utils": "^7.14.5",
+    "@formatjs/ts-transformer": "^3.6.0",
     "broccoli-persistent-filter": "^3.1.2",
-    "ember-cli-babel": "^7.26.6",
-    "calculate-cache-key-for-tree": "^2.0.0",
-    "ember-cli-version-checker": "^5.1.2",
-    "ember-cli-htmlbars": "^5.7.1",
     "broccoli-stew": "3.0.0",
-    "@formatjs/ts-transformer": "^3.6.0"
+    "calculate-cache-key-for-tree": "^2.0.0",
+    "ember-cli-babel": "^7.26.6",
+    "ember-cli-babel-plugin-helpers": "^1.1.1",
+    "ember-cli-htmlbars": "^5.7.1",
+    "ember-cli-version-checker": "^5.1.2"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",

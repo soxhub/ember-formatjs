@@ -2,6 +2,9 @@
 
 const { join } = require('path');
 const LangConvert = require('./lib/lang-convert');
+const { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
+const Plugin = require.resolve('./lib/format-message-replace');
+
 
 module.exports = {
   name: require('./package').name,
@@ -12,7 +15,7 @@ module.exports = {
     return new LangConvert(join(appPrefix, 'lang'));
   },
 
-  included() {
+  included(par) {
     this._super.included.apply(this, arguments);
 
     // inline _findHost
@@ -21,6 +24,15 @@ module.exports = {
     do {
       app = current.app || app;
     } while (current.parent.parent && (current = current.parent));
+
+    // let idInterpolationPattern =
+    //   (app.options ?? {})['ember-formatjs']?.idInterpolationPattern ??
+    //   '[sha512:contenthash:base64:6]';
+    // let plugin = createPlugin(idInterpolationPattern);
+
+    if (!hasPlugin(par, Plugin)) {
+      addPlugin(par, Plugin);
+    }
 
     // we can't use the setupPreprocessorRegistry() because there is no access to app.options
     this._setupPreprocessorRegistry(app);
