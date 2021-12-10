@@ -8,7 +8,7 @@ module.exports = function (idInterpolationPattern) {
     let fileName = env.meta.moduleName;
 
     function transformHelper(node) {
-      if (node.path.original === 'x') {
+      if (node.path.original === 'format-message') {
         const defaultMessage = node.params[0]?.original;
         const description = node.params[1]?.original;
         const id = interpolateName(
