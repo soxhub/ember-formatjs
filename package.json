@@ -21,9 +21,9 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
+    "ember-compatibility-tests": "ember try:each",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "ember-compatibility-tests": "ember try:each",
     "test:node": "mocha node-tests"
   },
   "dependencies": {
