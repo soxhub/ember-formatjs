@@ -20,6 +20,7 @@ module.exports = {
     browser: true,
   },
   rules: {},
+  ignorePatterns: ['node-tests/fixtures/*'],
   overrides: [
     // node files
     {
