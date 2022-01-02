@@ -5,29 +5,29 @@ export default class AController extends Controller {
   }
 
   get messageName() {
-    return this.intl.t('QxXsbh', {
+    return this.intl.t('5ZeleY', {
       name: 'Scott',
     });
   }
 
   get messageDescription() {
-    return this.intl.t('auSKLo');
+    return this.intl.t('I9bdbo');
   }
 
   get messageDescriptionWithArgs() {
-    return this.intl.t('2FwN61', {
+    return this.intl.t('IGr0zx', {
       description: 'foo',
     });
   }
 
   get messageIdWithArgs() {
-    return this.intl.t('vCPL33', {
+    return this.intl.t('VLPgeP', {
       id: '12345',
     });
   }
 
   get messageValueArgsAndOptions() {
-    return this.intl.t('qfLPS1', {
+    return this.intl.t('YM98+I', {
       name: this.args.user.name,
     });
   }
@@ -39,7 +39,7 @@ export default class AController extends Controller {
   }
 
   get messageValueArgsWithDescriptionAndOptionsDescription() {
-    return this.intl.t('DR8H1S', {
+    return this.intl.t('yb6VRh', {
       name: this.args.user.name,
       description: 'description for the message',
     });
