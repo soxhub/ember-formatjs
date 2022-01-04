@@ -73,7 +73,7 @@ module.exports = {
   },
 
   shouldTranspile(app) {
-    const shouldTranspile = process.env?.SHOULD_TRANSPILE;
+    const shouldTranspile = process.env?.TRANSPILE_I18N;
     return !shouldTranspile ?? !app.isProduction;
   },
 };
