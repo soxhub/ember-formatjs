@@ -2,12 +2,22 @@
 
 const { join } = require('path');
 const LangConvert = require('./lib/lang-convert');
+const { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
+const Plugin = require.resolve('./lib/format-message-replace');
 
 module.exports = {
   name: require('./package').name,
 
+  isDevelopingAddon() {
+    return true;
+  },
+
   treeForTranslations() {
-    let appPrefix = join(this.project.configPath(), '../..');
+    if (this.shouldTranspile(this.app)) {
+      return;
+    }
+
+    const appPrefix = join(this.project.configPath(), '../..');
 
     return new LangConvert(join(appPrefix, 'lang'));
   },
@@ -15,12 +25,22 @@ module.exports = {
   included() {
     this._super.included.apply(this, arguments);
 
-    // inline _findHost
-    let current = this;
     let app;
+    let current = this;
     do {
       app = current.app || app;
     } while (current.parent.parent && (current = current.parent));
+
+    if (this.shouldTranspile(app)) {
+      this.ui.writeLine('Do not transpile i18n with ember-formatjs');
+      return;
+    }
+
+    this.ui.writeLine('Transpile i18n with ember-formatjs');
+
+    if (!hasPlugin(app, Plugin)) {
+      addPlugin(app, Plugin);
+    }
 
     // we can't use the setupPreprocessorRegistry() because there is no access to app.options
     this._setupPreprocessorRegistry(app);
@@ -38,7 +58,7 @@ module.exports = {
   },
 
   _buildReplacePlugin(app) {
-    let KeyTransform = require('./replace-key-transform');
+    let KeyTransform = require('./lib/replace-key-transform');
 
     let idInterpolationPattern =
       (app.options ?? {})['ember-formatjs']?.idInterpolationPattern ??
@@ -50,5 +70,10 @@ module.exports = {
       baseDir: KeyTransform.baseDir,
       cacheKey: KeyTransform.cacheKey,
     };
+  },
+
+  shouldTranspile(app) {
+    const shouldTranspile = process.env?.TRANSPILE_I18N;
+    return !shouldTranspile ?? !app.isProduction;
   },
 };
