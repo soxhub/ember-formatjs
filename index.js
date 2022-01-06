@@ -31,7 +31,7 @@ module.exports = {
       app = current.app || app;
     } while (current.parent.parent && (current = current.parent));
 
-    if (this.shouldTranspile(app)) {
+    if (!this.shouldTranspile(app)) {
       this.ui.writeLine('Do not transpile i18n with ember-formatjs');
       return;
     }
@@ -74,6 +74,6 @@ module.exports = {
 
   shouldTranspile(app) {
     const shouldTranspile = process.env?.TRANSPILE_I18N;
-    return !shouldTranspile ?? !app.isProduction;
+    return app.isProduction || shouldTranspile;
   },
 };
