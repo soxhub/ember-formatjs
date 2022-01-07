@@ -13,7 +13,7 @@ module.exports = {
   },
 
   treeForTranslations() {
-    if (this.shouldTranspile(this.app)) {
+    if (!this.shouldTranspile(this.app)) {
       return;
     }
 
