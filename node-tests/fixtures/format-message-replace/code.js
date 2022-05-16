@@ -66,4 +66,58 @@ export default class AController extends Controller {
 			description: 'description for the message',
 		});
 	}
+
+	get messageWithBackticks() {
+		return this.intl.formatMessage({
+			defaultMessage: `The user is: {name}, {description} messageWithBackticks`,
+			description: 'this is a description',
+		}, {
+			name: this.args.user.name,
+			description: 'description for the message',
+		});
+	}
+
+  get messageWithMultilineBackticks() {
+		return this.intl.formatMessage({
+			defaultMessage: `
+        The user is: {name}, {description}
+        messageWithBackticks
+      `,
+			description: 'this is a description',
+		}, {
+			name: this.args.user.name,
+			description: 'description for the message',
+		});
+	}
+
+  get messageWithMultilineBackticksAndSelect() {
+    	return this.intl.formatMessage({
+				defaultMessage: `
+            {hasHours, select, true {{hours}h} other {}}
+            {hasMinutes, select, true {{minutes}m} other {}}
+            {hasSeconds, select, true {{seconds}s} other {}}
+        `,
+			},
+			{
+				hasHours: false,
+				hasMinutes: false,
+				hasSeconds: false,
+				hours: 0,
+				minutes: 0,
+				seconds: 0,
+			},
+		);
+	}
+
+  get messageWithMultilineBackticksWithoutDescription() {
+		return this.intl.formatMessage({
+			defaultMessage: `
+        The user is: {name}, {description}
+        messageWithBackticks
+      `,
+		}, {
+			name: this.args.user.name,
+			description: 'description for the message',
+		});
+	}
 }

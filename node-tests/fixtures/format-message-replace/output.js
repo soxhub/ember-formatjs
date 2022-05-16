@@ -44,4 +44,36 @@ export default class AController extends Controller {
       description: 'description for the message',
     });
   }
+
+  get messageWithBackticks() {
+    return this.intl.t('rV3UdV', {
+      name: this.args.user.name,
+      description: 'description for the message',
+    });
+  }
+
+  get messageWithMultilineBackticks() {
+    return this.intl.t('rV3UdV', {
+      name: this.args.user.name,
+      description: 'description for the message',
+    });
+  }
+
+  get messageWithMultilineBackticksAndSelect() {
+    return this.intl.t('8BgCEw', {
+      hasHours: false,
+      hasMinutes: false,
+      hasSeconds: false,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    });
+  }
+
+  get messageWithMultilineBackticksWithoutDescription() {
+    return this.intl.t('bHc0dX', {
+      name: this.args.user.name,
+      description: 'description for the message',
+    });
+  }
 }
