@@ -3,7 +3,7 @@
 const { join } = require('path');
 const LangConvert = require('./lib/lang-convert');
 const { addPlugin, hasPlugin } = require('ember-cli-babel-plugin-helpers');
-const Plugin = require.resolve('./lib/format-message-replace');
+const Plugin = require('./lib/format-message-replace');
 
 module.exports = {
   name: require('./package').name,
@@ -38,8 +38,10 @@ module.exports = {
 
     this.ui.writeLine('Transpile i18n with ember-formatjs');
 
-    if (!hasPlugin(app, Plugin)) {
-      addPlugin(app, Plugin);
+    const FormatMessageReplacePlugin = Plugin(this.addonOptions(app));
+
+    if (!hasPlugin(app, FormatMessageReplacePlugin)) {
+      addPlugin(app, FormatMessageReplacePlugin);
     }
 
     // we can't use the setupPreprocessorRegistry() because there is no access to app.options
@@ -60,13 +62,9 @@ module.exports = {
   _buildReplacePlugin(app) {
     let KeyTransform = require('./lib/replace-key-transform');
 
-    let idInterpolationPattern =
-      (app.options ?? {})['ember-formatjs']?.idInterpolationPattern ??
-      '[sha512:contenthash:base64:6]';
-
     return {
       name: 'replace-key-transform',
-      plugin: KeyTransform(idInterpolationPattern),
+      plugin: KeyTransform(this.addonOptions(app).idInterpolationPattern),
       baseDir: KeyTransform.baseDir,
       cacheKey: KeyTransform.cacheKey,
     };
@@ -75,5 +73,15 @@ module.exports = {
   shouldTranspile(app) {
     const shouldTranspile = process.env?.TRANSPILE_I18N;
     return app.isProduction || shouldTranspile;
+  },
+
+  addonOptions(app) {
+    const addonOptions = (app.options ?? {})['ember-formatjs'] || {};
+    const defaultOptions = {
+      idInterpolationPattern: '[sha512:contenthash:base64:6]',
+      preserveWhitespace: false,
+    };
+
+    return Object.assign({}, defaultOptions, addonOptions);
   },
 };
