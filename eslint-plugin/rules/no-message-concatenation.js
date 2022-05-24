@@ -27,20 +27,23 @@ module.exports = {
         const isFormatMessage = node.callee?.property?.name === 'formatMessage';
 
         if (isIntl && isFormatMessage) {
-          const firstArg = node.arguments?.[0].properties?.[0].value;
+          const firstArg = node.arguments?.[0];
+          const defaultMessagePropertyValue = firstArg?.properties?.find(
+            (property) => property.key.name === 'defaultMessage'
+          )?.value;
 
           if (
-            firstArg &&
-            firstArg.type === 'BinaryExpression' &&
-            firstArg.operator === '+'
+            defaultMessagePropertyValue &&
+            defaultMessagePropertyValue.type === 'BinaryExpression' &&
+            defaultMessagePropertyValue.operator === '+'
           ) {
             report(node);
           }
 
           if (
-            firstArg &&
-            firstArg.type === 'TemplateLiteral' &&
-            firstArg.expressions.filter(
+            defaultMessagePropertyValue &&
+            defaultMessagePropertyValue.type === 'TemplateLiteral' &&
+            defaultMessagePropertyValue.expressions.filter(
               (expression) => expression.type === 'Identifier'
             ).length > 0
           ) {
