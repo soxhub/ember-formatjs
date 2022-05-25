@@ -35,6 +35,7 @@ module.exports = {
         './config/**/*.js',
         './tests/dummy/config/**/*.js',
         'lib/**/*.js',
+        'eslint-plugin/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',
