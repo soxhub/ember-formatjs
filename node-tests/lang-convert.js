@@ -39,10 +39,10 @@ describe('Tag Generator', function () {
     const files = await buildFiles({
       'en-us.json': `{
   "+/sgnu": {
-    "defaultMessage": "Assessment Templates"
+    "translation": "Assessment Templates"
   },
   "+5S38p": {
-    "defaultMessage": "Tasks are not in the same status. No bulk workflow actions can be performed."
+    "translation": "Tasks are not in the same status. No bulk workflow actions can be performed."
   }
 }`,
     });
