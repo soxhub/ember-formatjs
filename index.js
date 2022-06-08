@@ -19,7 +19,7 @@ module.exports = {
 
     const appPrefix = join(this.project.configPath(), '../..');
 
-    return new LangConvert(join(appPrefix, 'lang'));
+    return new LangConvert(join(appPrefix, 'locale'));
   },
 
   included() {
