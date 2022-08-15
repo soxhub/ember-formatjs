@@ -1,6 +1,6 @@
 {
   "name": "@soxhub/ember-formatjs",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -26,7 +26,7 @@
     "test:ember": "TRANSPILE_I18N=true ember test",
     "test:node": "mocha node-tests"
   },
-  "publishConfig":{
+  "publishConfig": {
     "registry": "https://npm.pkg.github.com/soxhub"
   },
   "dependencies": {
