@@ -1,0 +1,40 @@
+name: Control - pre-existing try-scenario failures
+
+# Throwaway diagnostic. Establishes that the try-scenario failures visible on
+# PR #15 come from the committed dependency tree on main, not from that PR's
+# edit to ci.yml.
+#
+# Deliberately shares nothing with PR #15's diff:
+#   - ci.yml is left untouched at v2 on this branch
+#   - actions are pinned by commit SHA, not by the @v5 tag PR #15 uses
+#   - `cache: yarn` is omitted entirely, so this does not depend on the
+#     Actions Cache fix that PR #15 is about
+#
+# Delete this file and close the PR once the comparison is recorded.
+
+on: pull_request
+
+jobs:
+  control:
+    name: control-${{ matrix.try-scenario }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        try-scenario:
+          - ember-lts-3.20
+          - ember-release
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - name: Install Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 14.x
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Show what testem resolves to inside the scenario
+        run: node -e "console.log('locked testem:', require('testem/package.json').version)"
+      - name: Run Tests
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
